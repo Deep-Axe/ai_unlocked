@@ -1,16 +1,16 @@
 # ── core API ────────────────────────────────────────────────────────
 fastapi==0.111.0
-uvicorn[standard]==0.29.0
+uvicorn[standard]>=0.29.0
 gunicorn==22.0.0
 aiofiles==25.1.0
-sqlalchemy==2.0.30
 sqlalchemy[asyncio]==2.0.30
-pydantic==2.7.1
+pydantic>=2.11.0,<3.0.0
 python-multipart==0.0.9
 openpyxl==3.1.2
 requests==2.31.0
 schedule==1.2.1
 python-dotenv==1.0.1
+pyjwt[crypto]>=2.10.1
 
 # ── Azure SQL + AI + SMS ─────────────────────────────────────────────
 pyodbc==5.3.0
