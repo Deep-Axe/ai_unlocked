@@ -1,0 +1,19 @@
+# ── core API ────────────────────────────────────────────────────────
+fastapi==0.111.0
+uvicorn[standard]==0.29.0
+aiofiles==25.1.0
+sqlalchemy==2.0.30
+sqlalchemy[asyncio]==2.0.30
+pydantic==2.7.1
+python-multipart==0.0.9
+openpyxl==3.1.2
+requests==2.31.0
+schedule==1.2.1
+python-dotenv==1.0.1
+
+# ── Azure SQL + AI + SMS ─────────────────────────────────────────────
+pyodbc==5.3.0
+semantic-kernel==1.40.0
+azure-communication-sms==1.1.0
+azure-identity==1.25.2
+openai==2.26.0

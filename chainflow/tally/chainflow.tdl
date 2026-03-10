@@ -1,0 +1,115 @@
+;;; ============================================================
+;;; ChainFlow — chainflow.tdl
+;;; Optional visual verification report for Tally Prime 2.x / 3.x
+;;; ============================================================
+;;;
+;;; ──────────────────────────────────────────────────────────
+;;; IS THIS FILE REQUIRED FOR THE SYNC TO WORK?
+;;; ──────────────────────────────────────────────────────────
+;;; NO.
+;;;
+;;; tally_listener.py syncs stock data by POSTing a raw XML COLLECTION
+;;; request directly to Tally's built-in HTTP server (localhost:9000).
+;;; That mechanism uses Tally's native export API and requires no TDL
+;;; to be loaded at all.
+;;;
+;;; This file is a CONVENIENCE REPORT only.  Load it if you want to
+;;; visually verify inside Tally that the stock data matches what
+;;; ChainFlow is receiving — useful during initial setup or when
+;;; investigating a discrepancy between Tally and the ChainFlow dashboard.
+;;;
+;;; ──────────────────────────────────────────────────────────
+;;; HOW TO LOAD THIS FILE IN TALLY PRIME (optional)
+;;; ──────────────────────────────────────────────────────────
+;;;   1. Open Tally Prime
+;;;   2. Press F12 (Configure) → click "Product & Features"
+;;;   3. Select "TDL Management" from the left panel
+;;;   4. Under "Local TDL Files", click "Add" and browse to this file
+;;;      (full path, e.g. C:\chainflow\tally\chainflow.tdl)
+;;;   5. Press Enter / Save — Tally will reload with the report active
+;;;   6. To run the report:
+;;;        Gateway of Tally → Display → Reports → ChainFlow Stock Verify
+;;;
+;;; To unload: return to TDL Management and remove the file path.
+;;;
+;;; ──────────────────────────────────────────────────────────
+;;; TALLY VERSION NOTES
+;;; ──────────────────────────────────────────────────────────
+;;; Written for Tally Prime 2.x.  The syntax is identical in 3.x for
+;;; simple reports like this one.  If you are on Tally ERP 9, the
+;;; Report/Form/Part/Line/Field structure is the same but the UI path
+;;; to load TDL files differs (F11 → Features → TDL & Add-On).
+;;;
+;;; ──────────────────────────────────────────────────────────
+;;; KNOWN FIELD QUIRK
+;;; ──────────────────────────────────────────────────────────
+;;; $ClosingBalance returns a formatted string like "250.00 Nos" in some
+;;; Tally versions — quantity AND unit concatenated.  This is fine for
+;;; visual inspection.  tally_listener.py handles the split programmatically
+;;; (see _parse_closing_balance() in tally_listener.py).
+;;;
+;;; ============================================================
+
+
+;;; ── Report entry point ──────────────────────────────────────────────────────
+;;; Adds "ChainFlow Stock Verify" to Gateway of Tally → Display → Reports
+
+[Report: ChainFlow Stock Verify]
+    Form    : CF Stock Form
+    Title   : "ChainFlow Stock Verify"
+
+;;; ── Form ────────────────────────────────────────────────────────────────────
+
+[Form: CF Stock Form]
+    Parts   : CF Stock Part
+
+;;; ── Part — iterates over every stock item ───────────────────────────────────
+
+[Part: CF Stock Part]
+    Lines   : CF Title Line, CF Detail Line
+    Repeat  : CF Detail Line : Stock Items
+    Scroll  : Vertical
+
+;;; ── Header line (printed once at the top) ───────────────────────────────────
+
+[Line: CF Title Line]
+    Fields  : CF Name Title, CF Balance Title, CF Unit Title
+    Border  : Thin Bottom
+
+[Field: CF Name Title]
+    Use     : Name Field
+    Caption : "Stock Item Name"
+    Width   : 40
+
+[Field: CF Balance Title]
+    Use     : Amount Field
+    Caption : "Closing Balance"
+    Width   : 20
+
+[Field: CF Unit Title]
+    Use     : Name Field
+    Caption : "Unit"
+    Width   : 10
+
+;;; ── Detail line (repeated for each stock item) ──────────────────────────────
+
+[Line: CF Detail Line]
+    Fields  : CF SKU Name, CF Closing Balance, CF SKU Unit
+
+[Field: CF SKU Name]
+    Use     : Name Field
+    Set As  : $Name
+    Width   : 40
+
+[Field: CF Closing Balance]
+    Use     : Amount Field
+    ;;; $ClosingBalance returns the quantity with unit appended ("250.00 Nos").
+    ;;; For a clean numeric display use $ClosingBalance.Amount instead —
+    ;;; but the combined string is clearer for visual verification purposes.
+    Set As  : $ClosingBalance
+    Width   : 20
+
+[Field: CF SKU Unit]
+    Use     : Name Field
+    Set As  : $BaseUnits
+    Width   : 10

@@ -1,0 +1,11 @@
+# .copilotignore
+# Files listed here are excluded from GitHub Copilot's context window.
+# Copilot Chat and inline completions will not read or index these files.
+# Syntax is identical to .gitignore.
+
+.env
+
+sample_data/inventory_template.xlsx
+*.log
+*.db
+*.sqlite3

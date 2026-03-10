@@ -1,0 +1,52 @@
+# ai_unlocked root .gitignore
+
+# ── Secrets & environment ──────────────────────────────────────────────────────
+.env
+*.env
+!*.env.example
+
+# ── Prompts / internal specs — keep off public repo ───────────────────────────
+prompts/
+chainflow/prompts/
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.eggs/
+.Python
+
+# ── Node / frontend ───────────────────────────────────────────────────────────
+node_modules/
+chainflow/frontend/node_modules/
+
+# ── Local databases ───────────────────────────────────────────────────────────
+*.db
+*.sqlite3
+
+# ── Virtual environments ──────────────────────────────────────────────────────
+venv/
+.venv/
+env/
+
+# ── VS Code ───────────────────────────────────────────────────────────────────
+.vscode/
+
+# ── Log files ─────────────────────────────────────────────────────────────────
+*.log
+server*.log
+tally_sync.log
+
+# ── Generated / temp ──────────────────────────────────────────────────────────
+chainflow/sample_data/inventory_template.xlsx
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── PDF/personal files ────────────────────────────────────────────────────────
+*.pdf
