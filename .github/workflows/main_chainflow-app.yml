@@ -1,6 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 # More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
+
 name: Build and deploy ChainFlow to Azure Web App
 
 on:
@@ -22,7 +23,7 @@ jobs:
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install Python dependencies
         working-directory: chainflow
@@ -35,7 +36,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Build React frontend
         working-directory: chainflow/frontend
@@ -43,7 +44,6 @@ jobs:
           npm ci
           npm run build
       # frontend/dist/ is now present inside chainflow/
-
       # ── Upload artifact ───────────────────────────────────────────────────
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
@@ -70,6 +70,6 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'chainflow-app'
-          slot-name: 'Production'
+          app-name: "chainflow-app"
+          slot-name: "Production"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_63C7424544F046AA994E39A601459150 }}
